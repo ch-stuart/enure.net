@@ -1,0 +1,40 @@
+---
+interface Props {
+  stem: string;
+  eager?: boolean;
+  priority?: boolean;
+}
+const { stem, eager = false, priority = false } = Astro.props;
+---
+
+<picture>
+  <source
+    srcset={`images/660/${stem}.avif 660w, images/990/${stem}.avif 990w`}
+    sizes="min(60vw, 330px)"
+    type="image/avif"
+  />
+  <source
+    srcset={`images/660/${stem}.webp 660w, images/990/${stem}.webp 990w`}
+    sizes="min(60vw, 330px)"
+    type="image/webp"
+  />
+  <img
+    class="img"
+    src={`images/660/${stem}.jpg`}
+    srcset={`images/660/${stem}.jpg 660w, images/990/${stem}.jpg 990w`}
+    sizes="min(60vw, 330px)"
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : undefined}
+    decoding="async"
+    alt=""
+  />
+</picture>
+
+<style>
+  .img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+</style>

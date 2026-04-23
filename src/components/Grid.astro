@@ -1,0 +1,100 @@
+---
+import Cell from "./Cell.astro";
+import PhotoCell from "./PhotoCell.astro";
+import ContentCell from "./ContentCell.astro";
+
+const stems = Object.keys(import.meta.glob("/docs/images/660/*.jpg"))
+  .map((p) => p.split("/").pop()!.replace(".jpg", ""))
+  .sort();
+
+const total = stems.length + 1;
+const cols = Math.ceil(Math.sqrt(total));
+const rows = Math.ceil(total / cols);
+const gridStyle = `grid-template-columns:repeat(${cols},var(--cell-w));grid-template-rows:repeat(${rows},var(--cell-h));`;
+---
+
+<div class="grid" id="grid" style={gridStyle}>
+  <Cell role="main"><ContentCell /></Cell>
+  {
+    stems.map((stem, i) => (
+      <Cell>
+        <PhotoCell
+          stem={stem}
+          eager={i < 4 || (i >= cols - 1 && i < cols + 4)}
+          priority={i === 0}
+        />
+      </Cell>
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    width: max-content;
+    padding: 10px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    display: grid;
+    gap: 10px;
+  }
+</style>
+
+<script>
+  const grid = document.getElementById("grid");
+  if (grid) {
+    const cells = () => Array.from(grid.querySelectorAll(".cell"));
+
+    function getCols() {
+      const match = grid.style.gridTemplateColumns.match(/repeat\((\d+)/);
+      return match ? parseInt(match[1], 10) : 1;
+    }
+
+    function focusedCellIndex(allCells) {
+      let el = document.activeElement;
+      while (el && el !== document.body) {
+        const idx = allCells.indexOf(el);
+        if (idx !== -1) return idx;
+        el = el.parentElement;
+      }
+      return -1;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+      if (!keys.includes(e.key)) return;
+
+      const allCells = cells();
+      let idx = focusedCellIndex(allCells);
+
+      if (idx === -1) {
+        allCells[0]?.focus();
+        allCells[0]?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+        e.preventDefault();
+        return;
+      }
+
+      const cols = getCols();
+      const next =
+        e.key === "ArrowLeft"
+          ? idx - 1
+          : e.key === "ArrowRight"
+            ? idx + 1
+            : e.key === "ArrowUp"
+              ? idx - cols
+              : idx + cols;
+
+      if (next < 0 || next >= allCells.length) return;
+
+      e.preventDefault();
+      allCells[next].focus();
+      allCells[next].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    });
+  }
+</script>

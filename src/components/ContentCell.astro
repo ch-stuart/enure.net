@@ -1,0 +1,67 @@
+<div class="cellText">
+  <h1 class="heading">Charlie Stuart</h1>
+  <ul class="list">
+    <li class="listItem">
+      <a class="listItemLink" href="https://www.linkedin.com/in/charlesstuart/"
+        >LinkedIn</a
+      >
+    </li>
+    <li class="listItem">
+      <a class="listItemLink" href="https://github.com/ch-stuart">GitHub</a>
+    </li>
+    <li class="listItem">
+      <a class="listItemLink" href="https://bsky.app/profile/enure.net"
+        >Bluesky</a
+      >
+    </li>
+  </ul>
+</div>
+
+<style>
+  .cellText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    gap: 16px;
+    position: absolute;
+    inset: 0;
+    margin-top: -24px;
+  }
+  .heading {
+    font-weight: normal;
+  }
+  .heading,
+  .listItem {
+    font-size: 14px;
+  }
+  .list {
+    list-style-type: none;
+  }
+  .listItem {
+    margin-bottom: 4px;
+  }
+  .listItem:nth-child(1) {
+    padding-left: 8px;
+  }
+  .listItem:nth-child(2) {
+    padding-left: 16px;
+  }
+  .listItem:nth-child(3) {
+    padding-left: 24px;
+  }
+  .listItem::before {
+    content: "→";
+  }
+  .listItemLink,
+  .listItemLink:visited {
+    color: olivedrab;
+    text-decoration: none;
+    padding: 1px 2px;
+  }
+  .listItemLink:hover {
+    background-color: olivedrab;
+    color: white;
+    border-radius: 2px;
+  }
+</style>

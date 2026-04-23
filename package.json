@@ -1,0 +1,20 @@
+{
+  "name": "enure-net",
+  "private": true,
+  "scripts": {
+    "build": "bun run build:images && astro build",
+    "build:images": "bun run scripts/build-images.ts",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "lint": "oxlint",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "astro": "^6.1.9",
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.61.0"
+  }
+}

@@ -1,0 +1,39 @@
+---
+interface Props {
+  role?: astroHTML.JSX.IntrinsicElements["div"]["role"];
+}
+const { role } = Astro.props;
+---
+
+<div class="cell" tabindex="0" role={role}>
+  <slot />
+</div>
+
+<style>
+  .cell {
+    width: var(--cell-w);
+    height: var(--cell-h);
+    position: relative;
+  }
+  .cell::before {
+    content: "#" / "";
+    display: block;
+    position: absolute;
+    z-index: 49;
+    top: -5px;
+    left: -5px;
+    color: #777;
+    line-height: 0;
+    font-size: 8px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .cell:focus {
+    outline: 2px solid rgba(11, 222, 255, 0.6);
+    outline-offset: -4px;
+  }
+  @media (pointer: coarse) {
+    .cell {
+      scroll-snap-align: center;
+    }
+  }
+</style>
