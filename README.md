@@ -1,3 +1,3 @@
-## //enure.net
+## About
 
-- https://enure.net
+- https://www.enure.net
